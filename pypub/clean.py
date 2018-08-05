@@ -7,6 +7,10 @@ from bs4.dammit import EntitySubstitution
 
 import constants
 
+try:
+  basestring
+except NameError:
+  basestring = str
 
 def create_html_from_fragment(tag):
     """
@@ -74,7 +78,8 @@ def clean(input_string,
                 parent_node.append(n)
         else:
             attribute_dict = current_node.attrs
-            for attribute in attribute_dict.keys():
+            #for attribute in attribute_dict.keys():
+            for attribute in list(attribute_dict):
                 if attribute not in tag_dictionary[current_node.name]:
                     attribute_dict.pop(attribute)
         stack.extend(child_node_list)
@@ -86,13 +91,14 @@ def clean(input_string,
     for node in image_node_list:
         if not node.has_attr('src'):
             node.extract()
-    unformatted_html_unicode_string = unicode(root.prettify(encoding='utf-8',
-                                                            formatter=EntitySubstitution.substitute_html),
-                                              encoding='utf-8')
+    unformatted_html_unicode_string = root.prettify(encoding='utf-8', formatter='html')
+    #unformatted_html_unicode_string = unicode(root.prettify(encoding='utf-8',
+    ##                                                        formatter=EntitySubstitution.substitute_html),
+    ##                                          encoding='utf-8')
     # fix <br> tags since not handled well by default by bs4
-    unformatted_html_unicode_string = unformatted_html_unicode_string.replace('<br>', '<br/>')
+    ##unformatted_html_unicode_string = unformatted_html_unicode_string.replace('<br>', '<br/>')
     # remove &nbsp; and replace with space since not handled well by certain e-readers
-    unformatted_html_unicode_string = unformatted_html_unicode_string.replace('&nbsp;', ' ')
+    #unformatted_html_unicode_string = unformatted_html_unicode_string.replace(b'&nbsp;', b' ')
     return unformatted_html_unicode_string
 
 
@@ -131,10 +137,10 @@ def html_to_xhtml(html_unicode_string):
     Raises:
         TypeError: Raised if input_string isn't a unicode string or string.
     """
-    try:
-        assert isinstance(html_unicode_string, basestring)
-    except AssertionError:
-        raise TypeError
+    #try:
+    #    assert isinstance(html_unicode_string, basestring)
+    #except AssertionError:
+    #    raise TypeError
     root = BeautifulSoup(html_unicode_string, 'html.parser')
     # Confirm root node is html
     try:
@@ -144,10 +150,13 @@ def html_to_xhtml(html_unicode_string):
                          'string is the following: %s', unicode(root)]))
     # Add xmlns attribute to html node
     root.html['xmlns'] = 'http://www.w3.org/1999/xhtml'
-    unicode_string = unicode(root.prettify(encoding='utf-8', formatter='html'), encoding='utf-8')
+    #unicode_string = unicode(root.prettify(encoding='utf-8', formatter='html'), encoding='utf-8')
+    unicode_string = root.prettify(encoding='utf-8', formatter='html')
     # Close singleton tag_dictionary
-    for tag in constants.SINGLETON_TAG_LIST:
-        unicode_string = unicode_string.replace(
-                '<' + tag + '/>',
-                '<' + tag + ' />')
+    #for tag in constants.SINGLETON_TAG_LIST:
+    #    print("tag: ", type(tag))
+    #    
+    #    unicode_string = unicode_string.replace(
+    #            '<' + tag + '/>',
+    #            '<' + tag + ' />')
     return unicode_string

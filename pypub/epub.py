@@ -5,7 +5,6 @@ import string
 import shutil
 import tempfile
 import time
-
 import jinja2
 import requests
 import requests.packages.urllib3
@@ -18,12 +17,10 @@ try:
     import lxml.html.builder
 except ImportError:
     lxml_module_exists = False
-
 from constants import *
 import chapter
 
 requests.packages.urllib3.disable_warnings()
-
 
 class _Minetype(object):
 
@@ -57,7 +54,8 @@ class _EpubFile(object):
     def _render_template(self, **variable_value_pairs):
         def read_template():
             with open(self.template_file, 'r') as f:
-                template = f.read().decode('utf-8')
+                #template = f.read().decode('utf-8')
+                template = f.read()
             return jinja2.Template(template)
         template = read_template()
         rendered_template = template.render(variable_value_pairs)
@@ -67,7 +65,7 @@ class _EpubFile(object):
         def check_list_lengths(lists):
             list_length = None
             for value in lists.values():
-                assert isinstance(value, list)
+                #assert isinstance(value, list)
                 if list_length is None:
                     list_length = len(value)
                 else:
@@ -252,10 +250,10 @@ class Epub(object):
                 epub_file.write(os.path.join(self.OEBPS_DIR, name))
 
         def create_zip_archive(epub_name):
-            try:
-                assert isinstance(epub_name, basestring) or epub_name is None
-            except AssertionError:
-                raise TypeError('epub_name must be string or None')
+            #try:
+            #    assert isinstance(epub_name, basestring) or epub_name is None
+            #except AssertionError:
+            #    raise TypeError('epub_name must be string or None')
             if epub_name is None:
                 epub_name = self.title
             epub_name = ''.join([c for c in epub_name if c.isalpha() or c.isdigit() or c == ' ']).rstrip()

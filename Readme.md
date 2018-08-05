@@ -1,3 +1,6 @@
+# PATCH #
+This is just my quick patch ti mae pypub works without error in python 3, may causes bug, please don't hesitate to open issue for any bug.
+
 # Pypub #
 
 Create epub's using python. Pypub is a python library to create epub files quickly without having to worry about the intricacies of the epub specification.

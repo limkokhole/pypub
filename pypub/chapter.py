@@ -5,9 +5,9 @@ import os
 import shutil
 import tempfile
 import urllib
-import urlparse
+#import urlparse
+from urllib.parse import urlparse
 import uuid
-
 import bs4
 from bs4 import BeautifulSoup
 from bs4.dammit import EntitySubstitution
@@ -36,7 +36,8 @@ def get_image_type(url):
     else:
         try:
             f, temp_file_name = tempfile.mkstemp()
-            urllib.urlretrieve(url, temp_file_name)
+            urllib.request.urlretrieve
+            #urllib.urlretrieve(url, temp_file_name)
             image_type = imghdr.what(temp_file_name)
             return image_type
         except IOError:
@@ -60,12 +61,6 @@ def save_image(image_url, image_directory, image_name):
     if image_type is None:
         raise ImageErrorException(image_url)
     full_image_file_name = os.path.join(image_directory, image_name + '.' + image_type)
-
-    # If the image is present on the local filesystem just copy it
-    if os.path.exists(image_url):
-        shutil.copy(image_url, full_image_file_name)
-        return image_type
-
     try:
         # urllib.urlretrieve(image_url, full_image_file_name)
         with open(full_image_file_name, 'wb') as f:
@@ -115,7 +110,7 @@ def _replace_image(image_url, image_tag, ebook_folder,
     except TypeError:
         image_tag.decompose()
 
-
+from urllib.parse import urljoin
 class Chapter(object):
     """
     Class representing an ebook chapter. By and large this shouldn't be
@@ -157,17 +152,18 @@ class Chapter(object):
         except (AssertionError, IndexError):
             raise ValueError('filename must end with .xhtml')
         with open(file_name, 'wb') as f:
-            f.write(self.content.encode('utf-8'))
+            #f.write(self.content.encode('utf-8'))
+            f.write(self.content)
 
     def _validate_input_types(self, content, title):
-        try:
-            assert isinstance(content, basestring)
-        except AssertionError:
-            raise TypeError('content must be a string')
-        try:
-            assert isinstance(title, basestring)
-        except AssertionError:
-            raise TypeError('title must be a string')
+        #try:
+        #    assert isinstance(content, basestring)
+        #except AssertionError:
+        #    raise TypeError('content must be a string')
+        #try:
+        #    assert isinstance(title, basestring)
+        #except AssertionError:
+        #    raise TypeError('title must be a string')
         try:
             assert title != ''
         except AssertionError:
@@ -186,7 +182,8 @@ class Chapter(object):
     def _get_image_urls(self):
         image_nodes = self._content_tree.find_all('img')
         raw_image_urls = [node['src'] for node in image_nodes if node.has_attr('src')]
-        full_image_urls = [urlparse.urljoin(self.url, image_url) for image_url in raw_image_urls]
+        #full_image_urls = [urlparse.urljoin(self.url, image_url) for image_url in raw_image_urls]
+        full_image_urls = [urljoin(self.url, image_url) for image_url in raw_image_urls]
         image_nodes_filtered = [node for node in image_nodes if node.has_attr('src')]
         return zip(image_nodes_filtered, full_image_urls)
 
@@ -194,10 +191,11 @@ class Chapter(object):
         image_url_list = self._get_image_urls()
         for image_tag, image_url in image_url_list:
             _replace_image(image_url, image_tag, ebook_folder)
-        unformatted_html_unicode_string = unicode(self._content_tree.prettify(encoding='utf-8',
-                                                                              formatter=EntitySubstitution.substitute_html),
-                                                  encoding='utf-8')
-        unformatted_html_unicode_string = unformatted_html_unicode_string.replace('<br>', '<br/>')
+        unformatted_html_unicode_string = self._content_tree.prettify(encoding='utf-8', formatter='html')
+        #unformatted_html_unicode_string = unicode(self._content_tree.prettify(encoding='utf-8',
+        #                                                                      formatter=EntitySubstitution.substitute_html),
+        #                                          encoding='utf-8')
+        #unformatted_html_unicode_string = unformatted_html_unicode_string.replace('<br>', '<br/>')
         self.content = unformatted_html_unicode_string
 
 
@@ -297,7 +295,8 @@ class ChapterFactory(object):
                 root = BeautifulSoup(html_string, 'html.parser')
                 title_node = root.title
                 if title_node is not None:
-                    title = unicode(title_node.string)
+                    #title = unicode(title_node.string)
+                    title = title_node.string
                 else:
                     raise ValueError
             except (IndexError, ValueError):

@@ -1,5 +1,5 @@
 # Patch #
-This is just my quick patch to make pypub works without error in python 3, may causes bug, please don't hesitate to open issue for any bug.
+This is just my quick patch to make pypub works without error in python 3. This fix is quick and may causes bug, please don't hesitate to open issue for any bug.
 
 # Pypub #
 

@@ -1,4 +1,4 @@
-# Patch #
+# Patch for python 3 #
 This fork just my quick patch to make pypub works without error in python 3. 
 
 Only 4 files need to be changed, i.e. clean.py, epub.py, __init__.py, chapter.py  

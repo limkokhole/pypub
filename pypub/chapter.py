@@ -36,7 +36,7 @@ def get_image_type(url):
     else:
         try:
             f, temp_file_name = tempfile.mkstemp()
-            urllib.request.urlretrieve
+            urllib.request.urlretrieve(url, temp_file_name)
             #urllib.urlretrieve(url, temp_file_name)
             image_type = imghdr.what(temp_file_name)
             return image_type

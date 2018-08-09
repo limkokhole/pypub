@@ -37,6 +37,7 @@ SUPPORTED_TAGS = {
     'span': ['bgcolor', 'title'],
     'strike': ['class', 'id'],
     'strong': ['class', 'id'],
+    'style': ['display', 'padding', 'max-height', 'max-width'],
     'sub': ['id'],
     'sup': ['class', 'id'],
     'u': ['id'],

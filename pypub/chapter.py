@@ -67,7 +67,7 @@ def save_image(image_url, image_directory, image_name):
         with open(full_image_file_name, 'wb') as f:
             user_agent = r'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:31.0) Gecko/20100101 Firefox/31.0'
             request_headers = {'User-Agent': user_agent}
-            requests_object = requests.get(image_url, headers=request_headers)
+            requests_object = requests.get(image_url, headers=request_headers, timeout=11)
             try:
                 content = requests_object.content
                 # Check for empty response
@@ -238,7 +238,7 @@ class ChapterFactory(object):
             ValueError: Raised if unable to connect to url supplied
         """
         try:
-            request_object = requests.get(url, headers=self.request_headers, allow_redirects=False)
+            request_object = requests.get(url, headers=self.request_headers, allow_redirects=False, timeout=11)
         except (requests.exceptions.MissingSchema,
                 requests.exceptions.ConnectionError):
             raise ValueError("%s is an invalid url or no network connection" % url)

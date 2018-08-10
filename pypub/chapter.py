@@ -31,7 +31,7 @@ class ImageErrorException(Exception):
 
 def get_image_type(url):
     url = url.lower()
-    for ending in ['jpg', 'jpeg', '.gif', '.png']:
+    for ending in ['jpg', 'jpeg', '.gif', '.png', 'bmp']:
         if url.endswith(ending) or ((ending + '?') in url):
             return ending
     else:

@@ -29,11 +29,13 @@ SUPPORTED_TAGS = {
     'i': ['class', 'id'],
     'img': ['align', 'border', 'height', 'id', 'src', 'width'],
     'img /': ['align', 'border', 'height', 'id', 'src', 'width'],
+    'kbd': [], #hole, https://www.crummy.com/software/BeautifulSoup/bs3/documentation.html#Parsing%20HTML 
     'li': ['class', 'id', 'title'],
     'ol': ['id'],
     'p': ['align', 'id', 'title'],
     'pre': [],
     's': ['id', 'style', 'title'],
+    'samp': [], #hole, https://www.crummy.com/software/BeautifulSoup/bs3/documentation.html#Parsing%20HTML
     'small': ['id'],
     'span': ['bgcolor', 'title'],
     'strike': ['class', 'id'],

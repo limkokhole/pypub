@@ -41,6 +41,9 @@ SUPPORTED_TAGS = {
     'style': ['display', 'padding', 'max-height', 'max-width'],
     'sub': ['id'],
     'sup': ['class', 'id'],
+    'table': ['width', 'cellspacing', 'cellpadding', 'border',  'align'], #hole
+    'td': ['width', 'height', 'bgcolor'], #hole
+    'tr': ['width', 'height', 'bgcolor'], #hole
     'u': ['id'],
     'ul': ['class', 'id'],
     'var': []

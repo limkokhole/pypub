@@ -15,7 +15,8 @@ SUPPORTED_TAGS = {
     'dfn': [],
     'div': ['align', 'id', 'bgcolor'],
     'em': ['id', 'title'],
-    'font': ['color', 'face', 'id', 'size'],
+    'figure': [], #hole 
+   'font': ['color', 'face', 'id', 'size'],
     'head': [],
     'h1': [],
     'h2': [],
